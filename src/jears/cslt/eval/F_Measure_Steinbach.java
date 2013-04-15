@@ -100,14 +100,19 @@ public class F_Measure_Steinbach {
 		}
 
 		public static void main(String[] args) throws IOException {
-			ambient();
-			chineseSL();
+//			ambient();
+//			chineseSL();
 
-//			Clusters gold = new Clusters("./data/ambient/30" + ".xml");
-//			AmbientMapper test = new AmbientMapper("30");
-//			test.getClusters("./data/ambient/stc/" + "out-of-control.xml");
-//			F_Measure_Steinbach f = new F_Measure_Steinbach();
-//			f.getFMeasure(gold, test);
+			process("»‰≥Ê");
+			process("¥Ô∑“∆Ê");
+			process("ı¿Õª»™");
+		}
+
+		private static void process(String query) throws IOException {
+			Clusters gold = new Clusters("./data/annotationXML/" + query + ".xml");
+			Clusters test = new Clusters("./data/Cluster/wsi/" + query + ".xml");
+			F_Measure_Steinbach f = new F_Measure_Steinbach();
+			f.getFMeasure(gold, test);
 		}
 
 		private static void ambient() throws IOException {
@@ -164,5 +169,23 @@ public class F_Measure_Steinbach {
 			
 			stcwf.close();
 			lingowf.close();
+		}
+		
+		private static void chineseWSI() throws IOException {
+			WriteFile wsiwf = new WriteFile("./data/Cluster/C_Lingo_F-measure.txt", false, "gbk");
+			
+			ReadFile rf = new ReadFile("./data/testTopic.txt", "GBK");
+			String line = "";
+			while((line = rf.readLine()) != null) {
+				System.out.println(line);
+				Clusters gold = new Clusters("./data/annotationXML/" + line + ".xml");
+				Clusters test = new Clusters("./data/Cluster/wsi/" + line + ".xml");
+				F_Measure_Steinbach f = new F_Measure_Steinbach();
+				f.getFMeasure(gold, test);
+				wsiwf.writeLine(f.toString());
+			}
+			rf.close();
+			
+			wsiwf.close();
 		}
 }

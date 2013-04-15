@@ -1,6 +1,7 @@
 package jears.cslt.SRC;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,12 @@ public class Clustering {
 		wordSeg.importUserDict("./ICTCLAS/userdict.txt");
 		calculator = new ResultTreeRelationCalculator(wordFile, weightFile,
 				"gbk");
-		calculator.setParameters(0.01, 0.01, 0.01, 0.01, 0.01);
+		calculator.setParameters(0.2, 0.0005, 0.025, 0.1, 0.05);
+//		calculator.setParameters(0.2, 0.0005, 0.025, 0.1, 0.05);
+//		蠕虫
+//		Precision: 0.7073170731707317
+//		Recall: 0.8127288720366198
+//		FMeasure: 0.7054136645076813
 
 		subtopics = new TreeMap<String, Integer>();
 		Map<Tree, Double> temp = calculator
@@ -52,8 +58,7 @@ public class Clustering {
 		calculator.setParameters(delta1, delta2, theta, sigma1, sigma2);
 	}
 
-	public void clusterQuery(String dir, String query) throws IOException {
-		String newDir = dir.replace("SnippetForCarrot", "Cluster/WSI");
+	public void clusterQuery(String dir, String newDir, String query) throws IOException {
 		CreateDir.createDir(newDir);
 		WriteFile wf = new WriteFile(newDir + query + ".txt", false, "gbk");
 
@@ -131,14 +136,22 @@ public class Clustering {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String wordFile = "./data/Words/蠕虫.txt.count1";
-		String weightFile = "./data/Words/蠕虫.txt.count2";
+//		processQuery("蠕虫");
+//		processQuery("达芬奇");
+//		processQuery("宅急送");
+		processQuery("趵突泉");
+	}
+
+	private static void processQuery(String query) throws IOException,
+			FileNotFoundException {
+		String wordFile = "./data/Words/" + query + ".txt.count1";
+		String weightFile = "./data/Words/" + query + ".txt.count2";
 		Clustering test = new Clustering(wordFile, weightFile);
-		test.clusterQuery("./data/SnippetForCarrot/", "蠕虫");
+		test.clusterQuery("./data/SnippetForSRC/", "./data/Cluster/WSI/" ,query);
 		GoldClustersWriter test2 = new GoldClustersWriter(
-				"./data/Cluster/WSI/蠕虫.txt");
-		test2.writeXml("蠕虫", "./data/SnippetForCarrot/蠕虫/",
-				"./data/Cluster/WSI/" + "蠕虫" + ".xml");
+				"./data/Cluster/WSI/" + query + ".txt");
+		test2.writeXml(query, "./data/SnippetForCarrot/" + query + "/",
+				"./data/Cluster/WSI/" + query + ".xml");
 	}
 
 }
