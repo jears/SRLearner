@@ -185,9 +185,18 @@ public class CoOccurrenceWordFinder {
 	}
 
 	
-	public static void main(String[] args) throws IOException {
-		CoOccurrenceWordFinder test = new CoOccurrenceWordFinder("./data/SnippetForCarrot/");	
-		String query = "ָה³ז";
+	public static void main(String[] args) throws IOException {		
+		ReadFile rf = new ReadFile("./data/testTopic.txt", "GBK");
+		String line = "";
+		while((line = rf.readLine()) != null) {
+			System.out.println(line);
+			process(line);
+		}
+		rf.close();
+	}
+
+	private static void process(String query) throws IOException {
+		CoOccurrenceWordFinder test = new CoOccurrenceWordFinder("./data/SnippetForCarrot/");
 		Set<String> qWords = test.segment(query);
 		Set<String> sWords = test.segmentSentences("./data/Sentence/", query, 100);
 		System.out.println(qWords.size());

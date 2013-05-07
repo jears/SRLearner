@@ -94,6 +94,11 @@ public class WriteFile
         bw.write(str + newline);
     }
     
+    synchronized public void flush()
+            throws IOException {
+        bw.flush();
+    }
+    
     /**
      * 关闭�?
      * @throws IOException 

@@ -33,7 +33,8 @@ public class Clustering {
 		wordSeg.importUserDict("./ICTCLAS/userdict.txt");
 		calculator = new ResultTreeRelationCalculator(wordFile, weightFile,
 				"gbk");
-		calculator.setParameters(0.2, 0.0005, 0.025, 0.1, 0.05);
+		calculator.setParameters(0.1, 0.0001, 0.01, 0.1, 0.05);
+//		calculator.setParameters(0.2, 0.0005, 0.025, 0.1, 0.05);
 //		calculator.setParameters(0.2, 0.0005, 0.025, 0.1, 0.05);
 //		蠕虫
 //		Precision: 0.7073170731707317
@@ -136,15 +137,15 @@ public class Clustering {
 	}
 
 	public static void main(String[] args) throws IOException {
-//		processQuery("蠕虫");
+		processQuery("蠕虫");
 //		processQuery("达芬奇");
 //		processQuery("宅急送");
-		processQuery("趵突泉");
+//		processQuery("趵突泉");
 	}
 
 	private static void processQuery(String query) throws IOException,
 			FileNotFoundException {
-		String wordFile = "./data/Words/" + query + ".txt.count1";
+		String wordFile = "./data/Words-0422/" + query + ".txt.count1";
 		String weightFile = "./data/Words/" + query + ".txt.count2";
 		Clustering test = new Clustering(wordFile, weightFile);
 		test.clusterQuery("./data/SnippetForSRC/", "./data/Cluster/WSI/" ,query);
