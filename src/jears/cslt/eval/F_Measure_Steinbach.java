@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import jears.cslt.util.fileOperation.CreateDir;
 import jears.cslt.util.fileOperation.ReadFile;
 import jears.cslt.util.fileOperation.WriteFile;
 
@@ -15,6 +16,21 @@ public class F_Measure_Steinbach {
 		private double fmeasure;
 		private String query;
 
+		public static void main(String[] args) throws IOException {
+//			ambient();
+//			chineseSL();
+			F_Measure_Steinbach test = new F_Measure_Steinbach();
+			test.process("»‰≥Ê");
+			test.process("¥Ô∑“∆Ê");
+			test.process("ı¿Õª»™");
+		}
+		
+		public void process(String query) throws IOException {
+			Clusters gold = new Clusters("./data/annotationXML/" + query + ".xml");
+			Clusters test = new Clusters("./data/Cluster/wsi/" + query + ".xml");
+			getFMeasure(gold, test);
+		}
+		
 		public F_Measure_Steinbach() {
 			map = new TreeMap<Integer, Integer>();
 			precision = 0;
@@ -23,7 +39,17 @@ public class F_Measure_Steinbach {
 			query = "";
 		}
 		
+		public void clear() {
+			map = new TreeMap<Integer, Integer>();
+			precision = 0;
+			recall = 0;
+			fmeasure = 0;
+			query = "";
+		}
+		
 		public void getFMeasure(Clusters gold, Clusters test) {
+			clear();
+			
 			ArrayList<Cluster> testClusters = test.getCluster();
 			int documentCount = 0;
 			
@@ -98,21 +124,12 @@ public class F_Measure_Steinbach {
 		public String toString() {
 			return query + "\t" + precision + "\t" + recall + "\t" + fmeasure;
 		}
-
-		public static void main(String[] args) throws IOException {
-//			ambient();
-//			chineseSL();
-
-			process("»‰≥Ê");
-			process("¥Ô∑“∆Ê");
-			process("ı¿Õª»™");
-		}
-
-		private static void process(String query) throws IOException {
-			Clusters gold = new Clusters("./data/annotationXML/" + query + ".xml");
-			Clusters test = new Clusters("./data/Cluster/wsi/" + query + ".xml");
-			F_Measure_Steinbach f = new F_Measure_Steinbach();
-			f.getFMeasure(gold, test);
+		
+		public void print(String filename) throws IOException {
+			CreateDir.createDirForFile(filename);
+			WriteFile wf = new WriteFile(filename, true, "gbk");
+			wf.writeLine(toString());
+			wf.close();
 		}
 
 		private static void ambient() throws IOException {

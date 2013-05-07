@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import ICTCLAS.I3S.AC.IctWordSeg;
 
-import jears.cslt.tokenization.ChineseTokenizer;
 import jears.cslt.util.fileOperation.CreateDir;
 import jears.cslt.util.fileOperation.ReadFile;
 import jears.cslt.util.fileOperation.WriteFile;
@@ -27,7 +26,6 @@ public class CoOccurrenceWordFinder {
 	private String dir;
 	private IctWordSeg wordSeg;
 	private Set<String> stopWords;
-	private ChineseTokenizer tokenizer;
 	private String query;
 	
 	public CoOccurrenceWordFinder() {

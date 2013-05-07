@@ -13,7 +13,6 @@ import org.jdom.input.SAXBuilder;
 
 import jears.cslt.util.fileOperation.ReadFile;
 import jears.cslt.util.fileOperation.WriteFile;
-import jears.cslt.xmlparser.GoldClustersWriter;
 
 public class Clusters {
 	protected ArrayList<Cluster> clusters;
